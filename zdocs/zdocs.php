@@ -2,19 +2,14 @@
 if (!defined('ROOT_PATH')) die('Forbidden');
 
 require_once(ROOT_PATH . '/config.php');
-require_once(ROOT_PATH . '/zdocs/includes/parsedown.php');
 
 class ZDocs {
     
     public $pdo;
-    public $parsedown;
 
     public function __construct()
     {
         $this->pdo = $this->InitDatabase();
-        $this->parsedown = new Parsedown();
-        $this->parsedown->setSafeMode(false);
-        $this->parsedown->setBreaksEnabled(true);
     }
 
     public function InitDatabase()
@@ -132,22 +127,13 @@ class ZDocs {
         return $result;
     }
 
-    public function GetArticleContent($id, $parsed = false)
+    public function GetArticleContent($id)
     {
         $stmt = $this->pdo->prepare("SELECT content FROM articles WHERE id = :id");
         $stmt->execute(['id' => $id]);
         $result = $stmt->fetch();
         $content = $result ? $result['content'] : false;
-        if ($content) {
-            return $parsed ? $this->parsedown->text($content) : $content;
-        } else {
-            return false;
-        }
-    }
-
-    public function ParseArticleContent($content)
-    {
-        return $this->parsedown->text($content);
+        return $content;
     }
 
     public function GetBreadcrumbByArticle($articleId)
