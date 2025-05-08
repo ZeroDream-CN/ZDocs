@@ -1,0 +1,96 @@
+/*
+
+Atom One Dark by Daniel Gamage
+Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+
+base:    #282c34
+mono-1:  #abb2bf
+mono-2:  #818896
+mono-3:  #5c6370
+hue-1:   #56b6c2
+hue-2:   #61aeee
+hue-3:   #c678dd
+hue-4:   #98c379
+hue-5:   #e06c75
+hue-5-2: #be5046
+hue-6:   #d19a66
+hue-6-2: #e6c07b
+
+*/
+
+.theme-dark .hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.theme-dark .hljs-comment,
+.theme-dark .hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.theme-dark .hljs-doctag,
+.theme-dark .hljs-keyword,
+.theme-dark .hljs-formula {
+  color: #c678dd;
+}
+
+.theme-dark .hljs-section,
+.theme-dark .hljs-name,
+.theme-dark .hljs-selector-tag,
+.theme-dark .hljs-deletion,
+.theme-dark .hljs-subst {
+  color: #e06c75;
+}
+
+.theme-dark .hljs-literal {
+  color: #56b6c2;
+}
+
+.theme-dark .hljs-string,
+.theme-dark .hljs-regexp,
+.theme-dark .hljs-addition,
+.theme-dark .hljs-attribute,
+.theme-dark .hljs-meta-string {
+  color: #98c379;
+}
+
+.theme-dark .hljs-built_in,
+.theme-dark .hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+.theme-dark .hljs-attr,
+.theme-dark .hljs-variable,
+.theme-dark .hljs-template-variable,
+.theme-dark .hljs-type,
+.theme-dark .hljs-selector-class,
+.theme-dark .hljs-selector-attr,
+.theme-dark .hljs-selector-pseudo,
+.theme-dark .hljs-number {
+  color: #d19a66;
+}
+
+.theme-dark .hljs-symbol,
+.theme-dark .hljs-bullet,
+.theme-dark .hljs-link,
+.theme-dark .hljs-meta,
+.theme-dark .hljs-selector-id,
+.theme-dark .hljs-title {
+  color: #61aeee;
+}
+
+.theme-dark .hljs-emphasis {
+  font-style: italic;
+}
+
+.theme-dark .hljs-strong {
+  font-weight: bold;
+}
+
+.theme-dark .hljs-link {
+  text-decoration: underline;
+}
