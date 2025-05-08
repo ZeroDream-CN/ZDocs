@@ -1,7 +1,7 @@
 # ZDocs
 一款基于 PHP 开发的轻量级文档系统，采用无后台设计，所有交互均在前台完成。
 
-![image](https://github.com/user-attachments/assets/ff8faa7f-ce8b-4aa2-afbf-e79d0cb54698)
+![image](https://github.com/user-attachments/assets/00f462b7-0bab-4602-86ac-260ed0339a0a)
 
 ## 功能和特性
 * 轻到不能再轻量化，总共就 9 个 PHP 文件
