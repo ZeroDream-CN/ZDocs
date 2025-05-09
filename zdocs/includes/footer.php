@@ -7,5 +7,5 @@
 <script src="public/js/echarts.min.js"></script>
 <script src="public/js/cherry-markdown.min.js"></script>
 <script src="public/js/materialize.min.js"></script>
-<script src="public/js/script.js?v=1.0.2"></script>
+<script src="public/js/script.js?v=1.0.4"></script>
 </html>

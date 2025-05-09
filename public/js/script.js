@@ -1289,8 +1289,10 @@ $(document).ready(function () {
         let theme = localStorage.getItem('theme');
         if (theme === 'dark') {
             $('body').addClass('theme-dark');
+            $('meta[name="theme-color"]').attr('content', '#1e212e');
         } else {
             $('body').removeClass('theme-dark');
+            $('meta[name="theme-color"]').attr('content', '#ffffff');
         }
     } else {
         // 如果用户访问时的时间在 21:00 到 6:00 之间，则切换到夜间模式
@@ -1298,9 +1300,11 @@ $(document).ready(function () {
         if (now.getHours() >= 21 || now.getHours() < 6) {
             $('body').addClass('theme-dark');
             localStorage.setItem('theme', 'dark');
+            $('meta[name="theme-color"]').attr('content', '#1e212e');
         } else {
             $('body').removeClass('theme-dark');
             localStorage.setItem('theme', 'light');
+            $('meta[name="theme-color"]').attr('content', '#ffffff');
         }
     }
 
@@ -1309,8 +1313,10 @@ $(document).ready(function () {
         $('body').toggleClass('theme-dark');
         if ($('body').hasClass('theme-dark')) {
             localStorage.setItem('theme', 'dark');
+            $('meta[name="theme-color"]').attr('content', '#1e212e');
         } else {
             localStorage.setItem('theme', 'light');
+            $('meta[name="theme-color"]').attr('content', '#ffffff');
         }
     });
 });
