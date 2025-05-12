@@ -423,3 +423,28 @@ RegisterAction('sortArticle', function() {
         JsonOutput(false, '参数错误');
     }
 }, true);
+
+RegisterAction('importArticle', function() {
+    global $zdocs;
+    if (isset($_POST['category']) && is_string($_POST['category']) && preg_match('/^\d+$/', $_POST['category']) && isset($_POST['title']) && is_string($_POST['title']) && isset($_POST['content']) && is_string($_POST['content'])) {
+        // 检查同分类下是否有同名文章
+        $stmt = $zdocs->pdo->prepare("SELECT * FROM articles WHERE category = :category AND title = :title");
+        $stmt->execute(['category' => $_POST['category'], 'title' => $_POST['title']]);
+        $article = $stmt->fetch();
+        if ($article) {
+            JsonOutput(false, sprintf('文章 %s 已存在', $_POST['title']));
+            exit;
+        }
+        $stmt = $zdocs->pdo->prepare("INSERT INTO articles (category, title, content, author, time) VALUES (:category, :title, :content, :author, :time)");
+        $stmt->execute([
+            'category' => $_POST['category'],
+            'title' => $_POST['title'],
+            'content' => $_POST['content'],
+            'author' => $_SESSION['user'],
+            'time' => time()
+        ]);
+        JsonOutput(true, '文章已导入');
+    } else {
+        JsonOutput(false, '参数错误');
+    }
+}, true);

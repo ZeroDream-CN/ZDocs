@@ -101,7 +101,7 @@ function LoadCategory(categoryId) {
                 if (typeof (loginInfo) != 'undefined' && loginInfo) {
                     loginInfo.category = categoryId;
                     loginInfo.article = 0;
-                    $('.main-container .main-articles .article-content').append('<div class="admin-actions"><hr><h3>管理员操作</h3><p>您可以对当前分类进行管理操作，鼠标拖动上方文章可进行排序</p><p><button class="btn btn-primary waves-effect waves-light" onclick="CreateArticle()">创建文章</button> <button class="btn btn-warning waves-effect waves-light" onclick="CreateCategory(true)">创建子分类</button> <button class="btn btn-danger waves-effect waves-light" onclick="DeleteCategory()">删除分类</button></p></div>');
+                    $('.main-container .main-articles .article-content').append('<div class="admin-actions"><hr><h3>管理员操作</h3><p>您可以对当前分类进行管理操作，鼠标拖动上方文章可进行排序</p><p>您还可以将 .md 文件拖入到此处来导入，导入后会自动创建文章</p><p><button class="btn btn-primary waves-effect waves-light" onclick="CreateArticle()">创建文章</button> <button class="btn btn-warning waves-effect waves-light" onclick="CreateCategory(true)">创建子分类</button> <button class="btn btn-danger waves-effect waves-light" onclick="DeleteCategory()">删除分类</button></p></div>');
                     ProcessArticleSort();
                 }
                 // scroll to top
@@ -125,7 +125,7 @@ function LoadCategory(categoryId) {
                 if (typeof (loginInfo) != 'undefined' && loginInfo) {
                     loginInfo.category = categoryId;
                     loginInfo.article = 0;
-                    $('.main-container .main-articles .article-content').append('<div class="admin-actions"><hr><h3>管理员操作</h3><p>您可以对当前分类进行管理操作，鼠标拖动上方文章可进行排序</p><p><button class="btn btn-primary waves-effect waves-light" onclick="CreateArticle()">创建文章</button> <button class="btn btn-warning waves-effect waves-light" onclick="CreateCategory(true)">创建子分类</button> <button class="btn btn-danger waves-effect waves-light" onclick="DeleteCategory()">删除分类</button></p></div>');
+                    $('.main-container .main-articles .article-content').append('<div class="admin-actions"><hr><h3>管理员操作</h3><p>您可以对当前分类进行管理操作，鼠标拖动上方文章可进行排序</p><p>您还可以将 .md 文件拖入到此处来导入，导入后会自动创建文章</p><p><button class="btn btn-primary waves-effect waves-light" onclick="CreateArticle()">创建文章</button> <button class="btn btn-warning waves-effect waves-light" onclick="CreateCategory(true)">创建子分类</button> <button class="btn btn-danger waves-effect waves-light" onclick="DeleteCategory()">删除分类</button></p></div>');
                 }
             } else {
                 Swal.fire({
@@ -1317,6 +1317,117 @@ $(document).ready(function () {
         } else {
             localStorage.setItem('theme', 'light');
             $('meta[name="theme-color"]').attr('content', '#ffffff');
+        }
+    });
+    
+    // 批量导入文章
+    function preventDefault(e) {
+        e = e || window.event;
+        if (e.preventDefault) {
+            e.preventDefault();
+        }
+        if (e.stopPropagation) {
+            e.stopPropagation();
+        }
+        e.returnValue = false;
+    }
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        $('.article-content').on(eventName, preventDefault);
+    });
+
+    $('.article-content').on('drop', function (e) {
+        if (!loginInfo.category) {
+            return;
+        }
+
+        function importArticle(file, cb) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                var content = e.target.result;
+                var title = file.name.replace('.md', '');
+                $.ajax({
+                    type: 'POST',
+                    url: '?action=importArticle',
+                    async: false,
+                    data: {
+                        category: loginInfo.category,
+                        title: title,
+                        content: content
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            cb(true, data.message);
+                        } else {
+                            cb(false, data.message);
+                        }
+                    },
+                    error: function (err) {
+                        cb(false, err.responseText);
+                    }
+                })
+            };
+            reader.readAsText(file);
+        }
+
+        var files = e.originalEvent.dataTransfer.files;
+        if (files.length > 0) {
+            var importFiles = [];
+            for (var i = 0; i < files.length; i++) {
+                if (files[i].name.endsWith('.md')) {
+                    importFiles.push(files[i]);
+                }
+            }
+            if (importFiles.length > 0) {
+                Swal.fire({
+                    title: '确认导入',
+                    text: '您确定要导入 ' + importFiles.length + ' 个文件吗？',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消'
+                }).then((result) => {
+                    if (result.value) {
+                        // 创建文章，更新标题，更新内容
+                        var importCount = 0;
+                        var importSuccessCount = 0;
+                        var importErrorCount = 0;
+                        var importErrorList = [];
+                        for (var i = 0; i < importFiles.length; i++) {
+                            var file = importFiles[i];
+                            importArticle(file, function (success, message) {
+                                importCount++;
+                                if (success) {
+                                    importSuccessCount++;
+                                } else {
+                                    importErrorCount++;
+                                    importErrorList.push(message);
+                                }
+                            });
+                        }
+                        var timer = setInterval(function () {
+                            if (importCount === importFiles.length) {
+                                clearInterval(timer);
+                                if (importErrorCount > 0) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: '错误',
+                                        text: '导入失败：' + importErrorList.join('\n')
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: '成功',
+                                        text: '导入成功：' + importSuccessCount + '个文件'
+                                    }).then(() => {
+                                        window.location.reload();
+                                    });
+                                }
+                            }
+                        });
+                    }
+                })
+            }
         }
     });
 });

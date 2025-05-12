@@ -272,6 +272,7 @@ if (isset($_GET['id']) && is_string($_GET['id']) && preg_match('/^\d+$/', $_GET[
                             <hr>
                             <h3>管理员操作</h3>
                             <p>您可以对当前分类进行管理操作，鼠标拖动上方文章可进行排序</p>
+                            <p>您还可以将 .md 文件拖入到此处来导入，导入后会自动创建文章</p>
                             <p>
                                 <button class="btn btn-primary waves-effect waves-light" onclick="CreateArticle()">创建文章</button>
                                 <button class="btn btn-warning waves-effect waves-light" onclick="CreateCategory(true)">创建子分类</button>

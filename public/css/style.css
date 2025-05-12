@@ -1,4 +1,12 @@
-@import url(https://cfdx.zerodream.net/css/open-sans.css);
+/**
+ * @Author: Akkariin
+ * @Date: 2025-05-08
+ * @Description: ZDocs CSS 样式文件
+ * @Version: 1.0
+ * @License: MIT
+**/
+
+@import url(open-sans.css);
 
 :root {
     /* 主题色 */
@@ -7,7 +15,7 @@
     --primary-active: #9a2f1f;
 
     /* 背景相关 */
-    --bg-image: url(https://i.zerodream.net/cd88dd8c0bde25f332eb481cdef16c35.png);
+    --bg-image: url(../images/cd88dd8c0bde25f332eb481cdef16c35.png);
     --bg-size: 250px;
 
     /* 文字颜色 */
@@ -47,7 +55,7 @@
     --primary-active: #3d5ab0;
 
     /* 背景相关 */
-    --bg-image: url(https://i.zerodream.net/6ad4887b6883e396207dfa913bea026e.png);
+    --bg-image: url(../images/6ad4887b6883e396207dfa913bea026e.png);
 
     /* 文字颜色 */
     --text-color: #e0e0e0;
@@ -175,7 +183,7 @@ select {
     font-weight: 400;
     color: var(--text-color);
     background-color: transparent;
-    padding: 0;
+    padding: 0 !important;
     border-radius: 0;
 }
 
