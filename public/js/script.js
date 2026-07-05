@@ -755,6 +755,7 @@ function DeleteUser(uid) {
 }
 
 function ConvertHtml(markdown) {
+    if (typeof markdown !== 'string') return '';
     if (typeof marked != 'undefined') {
         return marked(markdown);
     }
