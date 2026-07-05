@@ -1,7 +1,5 @@
 var editorInstance = null;
 var articleSort = null;
-// 伪静态
-var usingStatic = true;
 // 添加滚动监听变量
 var scrollListener = null;
 
