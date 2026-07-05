@@ -246,6 +246,7 @@ function CreateCategory(isChild) {
             });
         }
     }).then((result) => {
+        if (result.isDismissed) return;
         if (result.value && result.value.success) {
             Swal.fire({
                 icon: 'success',
