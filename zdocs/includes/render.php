@@ -324,9 +324,10 @@ if (isset($_SESSION['user'])) {
 
 echo sprintf(<<<SCRIPT
     <script>
+    var usingStatic = %s;
     var pageInfo = {
         category: %d,
         article: %d
     }
     </script>
-    SCRIPT, $categoryId, $articleId);
+    SCRIPT, STATIC_URL ? 'true' : 'false', $categoryId, $articleId);

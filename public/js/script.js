@@ -1,7 +1,5 @@
 var editorInstance = null;
 var articleSort = null;
-// 伪静态
-var usingStatic = true;
 // 添加滚动监听变量
 var scrollListener = null;
 
@@ -246,6 +244,7 @@ function CreateCategory(isChild) {
             });
         }
     }).then((result) => {
+        if (result.isDismissed) return;
         if (result.value && result.value.success) {
             Swal.fire({
                 icon: 'success',
@@ -754,6 +753,7 @@ function DeleteUser(uid) {
 }
 
 function ConvertHtml(markdown) {
+    if (typeof markdown !== 'string') return '';
     if (typeof marked != 'undefined') {
         return marked(markdown);
     }
